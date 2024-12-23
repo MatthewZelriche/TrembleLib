@@ -1,5 +1,5 @@
 [package]
-name = "tremble_lib"
+name = "tremble"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,8 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
+thiserror = "2"
+
+# TODO: Enable for "CSharp" feature only
+[build-dependencies]
+csbindgen = "1"

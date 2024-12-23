@@ -1,16 +1,17 @@
 use std::sync::{LazyLock, RwLock};
 
-use crate::core::engine::Engine;
+use crate::{core::engine::Engine, error::TrembleError};
 
 static ENGINE: LazyLock<RwLock<Option<Engine>>> = LazyLock::new(|| RwLock::new(None));
 
 #[no_mangle]
-pub extern "C" fn tr_initialize() {
+pub extern "C" fn tr_initialize() -> TrembleError {
     let mut engine = ENGINE.write().unwrap();
     if let None = *engine {
         *engine = Some(Engine {});
+        return TrembleError::Success;
     } else {
-        return; // TODO: Error
+        return TrembleError::InitError;
     }
 }
 
@@ -24,7 +25,5 @@ pub extern "C" fn tr_test() {
 
 #[no_mangle]
 pub extern "C" fn tr_shutdown() {
-    if let None = ENGINE.write().unwrap().take() {
-        return; // TODO: ERROR
-    }
+    ENGINE.write().unwrap().take();
 }
