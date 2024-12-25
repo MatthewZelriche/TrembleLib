@@ -1,22 +1,23 @@
 use std::path::Path;
 
+use ansi_term::Color;
 use chrono::Local;
-use colored::Colorize;
 
 struct Logger;
 
 pub fn initialize_logger() {
     let _ = log::set_boxed_logger(Box::new(Logger {}))
         .map(|()| log::set_max_level(log::LevelFilter::Trace)); // TODO: Allow proper setting of log level
+    let _ = ansi_term::enable_ansi_support();
 }
 
 impl Logger {
     fn color_to_term(&self, level: log::Level, format_msg: &str) {
         match level {
-            log::Level::Error => println!("{}", format_msg.bright_white().on_red()),
-            log::Level::Warn => println!("{}", format_msg.bright_yellow()),
-            log::Level::Info => println!("{}", format_msg.white()),
-            _ => println!("{}", format_msg.cyan()),
+            log::Level::Error => println!("{}", Color::White.on(Color::Red).paint(format_msg)),
+            log::Level::Warn => println!("{}", Color::Yellow.paint(format_msg)),
+            log::Level::Info => println!("{}", Color::White.paint(format_msg)),
+            _ => println!("{}", Color::Cyan.paint(format_msg)),
         }
     }
 }
