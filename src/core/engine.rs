@@ -2,7 +2,8 @@
 pub struct Engine {}
 
 impl Engine {
-    pub fn hello(&self) {
-        println!("Hello, world!");
+    pub fn new() -> Self {
+        log::info!("Completed TrembleLib initialization");
+        Self {}
     }
 }

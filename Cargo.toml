@@ -8,6 +8,9 @@ crate-type = ["cdylib"]
 
 [dependencies]
 thiserror = "2"
+chrono = "0.4"
+colored = "2"
+log = { version = "0.4", features = ["std"] } # TODO: Provide built in logging impl as optional build feature
 
 # TODO: Enable for "CSharp" feature only
 [build-dependencies]
