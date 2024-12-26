@@ -1,4 +1,8 @@
-use crate::{core::engine::Engine, error::TrembleError, log::initialize_logger};
+use crate::{
+    core::engine::Engine,
+    error::{TrembleCError, TrembleError},
+    log::initialize_logger,
+};
 use std::sync::{LazyLock, RwLock};
 
 mod log;
@@ -6,14 +10,14 @@ mod log;
 static ENGINE: LazyLock<RwLock<Option<Engine>>> = LazyLock::new(|| RwLock::new(None));
 
 #[no_mangle]
-pub extern "C" fn tr_initialize() -> TrembleError {
+pub extern "C" fn tr_initialize() -> TrembleCError {
     initialize_logger();
     let mut engine = ENGINE.write().unwrap();
     if let None = *engine {
         *engine = Some(Engine::new());
-        return TrembleError::Success;
+        return TrembleError::Success.into();
     } else {
-        return TrembleError::InitError;
+        return TrembleError::InitError.into();
     }
 }
 

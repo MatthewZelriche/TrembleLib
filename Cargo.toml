@@ -6,11 +6,16 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib"]
 
+[features]
+disable_gen = []  # Disables build script to prevent attempting to generate .cs files
+                  # Needed for when we run cargo expand
+
 [dependencies]
 thiserror = "2"
 chrono = "0.4"
 ansi_term = "0.12"
 log = { version = "0.4", features = ["std"] } # TODO: Provide built in logging impl as optional build feature
+strum = { version = "0.26", features = ["derive"] }
 
 # TODO: Enable for "CSharp" feature only
 [build-dependencies]
