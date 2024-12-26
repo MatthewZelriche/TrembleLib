@@ -26,4 +26,5 @@ pub extern "C" fn tr_test() {
 #[no_mangle]
 pub extern "C" fn tr_shutdown() {
     ENGINE.write().unwrap().take();
+    ::log::logger().flush();
 }
