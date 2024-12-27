@@ -8,6 +8,4 @@ pub enum TrembleError {
     Success,
     #[error("Engine initialization failed due to some other unspecified initializion error")]
     InitError,
-    #[error("Engine initialization failed due to some other unspecified initializion error")]
-    WindowError(#[from] winit::error::EventLoopError),
 }
