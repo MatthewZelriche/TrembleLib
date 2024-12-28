@@ -6,6 +6,8 @@ use thiserror::Error;
 pub enum TrembleError {
     #[error("No error occured. Used for the FFI interface")]
     Success,
-    #[error("Engine initialization failed due to some other unspecified initializion error")]
-    InitError,
+    #[error("Engine initialization failed: {0}")]
+    InitError(String),
+    #[error("An error occured during interaction with the underlying platform: {0}")]
+    PlatformError(String),
 }

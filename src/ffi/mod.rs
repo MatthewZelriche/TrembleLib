@@ -1,3 +1,5 @@
+use ::log::error;
+
 use crate::{
     core::engine::Engine,
     error::{TrembleCError, TrembleError},
@@ -13,18 +15,40 @@ static ENGINE: LazyLock<RwLock<Option<Engine>>> = LazyLock::new(|| RwLock::new(N
 pub extern "C" fn tr_initialize() -> TrembleCError {
     initialize_logger();
     let mut engine = ENGINE.write().unwrap();
-    if let None = *engine {
-        *engine = Some(Engine::new());
-        return TrembleError::Success.into();
-    } else {
-        return TrembleError::InitError.into();
+
+    match Engine::new() {
+        Ok(ctx) => {
+            *engine = Some(ctx);
+            return TrembleError::Success.into();
+        }
+        Err(e) => {
+            error!("{}", e);
+            return e.into();
+        }
     }
 }
 
 #[no_mangle]
-pub extern "C" fn tr_test() {
-    let lock = ENGINE.read().unwrap();
-    let engine = lock.as_ref().expect("Called ffi fn before initialize()");
+pub extern "C" fn tr_tick() -> bool {
+    let mut lock = ENGINE.write().unwrap();
+    let engine = lock.as_mut().expect("Called ffi fn before initialize()");
+    engine.tick()
+}
+
+#[no_mangle]
+pub extern "C" fn tr_create_window(out_id: &mut u64) -> TrembleCError {
+    let mut lock = ENGINE.write().unwrap();
+    let engine = lock.as_mut().expect("Called ffi fn before initialize()");
+    match engine.window_manager().create_window_request() {
+        Ok(id) => {
+            *out_id = id;
+            return TrembleError::Success.into();
+        }
+        Err(e) => {
+            error!("{}", e);
+            return e.into();
+        }
+    }
 }
 
 #[no_mangle]

@@ -15,6 +15,8 @@ thiserror = "2"
 chrono = "0.4"
 ansi_term = "0.12"
 log = { version = "0.4", features = ["std"] } # TODO: Provide built in logging impl as optional build feature
+send_wrapper = "0.6.0"
+winit = "0.30"
 strum = { version = "0.26", features = ["derive"] }
 
 # TODO: Enable for "CSharp" feature only
