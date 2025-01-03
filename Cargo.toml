@@ -18,7 +18,3 @@ log = { version = "0.4", features = ["std"] } # TODO: Provide built in logging i
 send_wrapper = "0.6.0"
 winit = "0.30"
 strum = { version = "0.26", features = ["derive"] }
-
-# TODO: Enable for "CSharp" feature only
-[build-dependencies]
-csbindgen = "1"
