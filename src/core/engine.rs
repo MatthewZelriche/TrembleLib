@@ -1,7 +1,8 @@
-use crate::{error::TrembleError, io::window_manager::WindowManager};
+use crate::{error::TrembleError, io::window_manager::WindowManager, render::Renderer};
 
 pub struct Engine {
     window_manager: WindowManager,
+    renderer: Option<Renderer>,
 }
 
 impl Engine {
@@ -9,6 +10,7 @@ impl Engine {
         log::info!("Completed TrembleLib initialization");
         Ok(Self {
             window_manager: WindowManager::new(true)?,
+            renderer: Some(Renderer::new()?),
         })
     }
 

@@ -1,3 +1,4 @@
+use ash::LoadingError;
 use strum::EnumDiscriminants;
 use thiserror::Error;
 
@@ -10,4 +11,16 @@ pub enum TrembleError {
     InitError(String),
     #[error("An error occured during interaction with the underlying platform: {0}")]
     PlatformError(String),
+}
+
+impl From<LoadingError> for TrembleError {
+    fn from(value: LoadingError) -> Self {
+        Self::PlatformError(value.to_string())
+    }
+}
+
+impl From<ash::vk::Result> for TrembleError {
+    fn from(value: ash::vk::Result) -> Self {
+        Self::PlatformError(value.to_string())
+    }
 }

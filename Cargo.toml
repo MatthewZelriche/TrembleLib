@@ -9,6 +9,7 @@ crate-type = ["cdylib"]
 [features]
 disable_gen = []  # Disables build script to prevent attempting to generate .cs files
                   # Needed for when we run cargo expand
+debug_features = []
 
 [dependencies]
 thiserror = "2"
@@ -17,4 +18,5 @@ ansi_term = "0.12"
 log = { version = "0.4", features = ["std"] } # TODO: Provide built in logging impl as optional build feature
 send_wrapper = "0.6.0"
 winit = "0.30"
+ash = "0.38"
 strum = { version = "0.26", features = ["derive"] }
